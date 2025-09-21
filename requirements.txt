@@ -1,0 +1,3 @@
+streamlit==1.25.0
+sacrebleu==2.3.2
+bert-score==0.3.13
