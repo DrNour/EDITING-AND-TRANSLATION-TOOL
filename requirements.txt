@@ -1,8 +1,5 @@
-fastapi
-uvicorn
-streamlit
-pandas
-Levenshtein
-sacrebleu
-bert-score
-requests
+translation_project/
+├─ backend/
+│   ├─ main.py
+│   ├─ utils.py
+│   ├─ requirements.txt   ✅ (backend one)
