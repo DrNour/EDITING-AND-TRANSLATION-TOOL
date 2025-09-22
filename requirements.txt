@@ -1,5 +1,2 @@
-streamlit
-sacrebleu
-python-Levenshtein
-pandas
-bert-score
+import nltk
+nltk.download('punkt')
