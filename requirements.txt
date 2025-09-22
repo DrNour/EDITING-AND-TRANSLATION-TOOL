@@ -1,2 +1,9 @@
-import nltk
-nltk.download('punkt')
+fastapi
+uvicorn
+pandas
+pydantic
+python-Levenshtein
+sacrebleu
+bert-score
+language-tool-python
+nltk
