@@ -9,7 +9,8 @@ import Levenshtein
 # -------------------------
 # Configuration
 # -------------------------
-API_URL = "https://editing-and-translation-tool.onrender.com"
+API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
+
 # -------------------------
 # Helper Functions
 # -------------------------
@@ -32,16 +33,18 @@ def calculate_score(student_translation, reference):
     return round(score, 2)
 
 # -------------------------
-# App Interface
+# Role Selection
 # -------------------------
 st.title("Translation & Editing Training Tool 🎓✨")
-
 role = st.radio("Select Role:", ["Student", "Instructor"])
+st.write(f"Role selected: {role}")
 
 # -------------------------
 # Student Interface
 # -------------------------
 if role == "Student":
+    st.header("Student Translation Interface")
+
     student_name = st.text_input("Your Name", "")
     reference = st.text_area("Reference Translation", "This is the gold standard translation.", height=100)
     mt_output = st.text_area("Machine Translation Output", "This is machine translation.", height=100)
@@ -85,8 +88,8 @@ if role == "Student":
 # -------------------------
 # Instructor Interface
 # -------------------------
-else:
-    st.subheader("Instructor Dashboard")
+elif role == "Instructor":
+    st.header("Instructor Dashboard")
 
     # Fetch submissions from backend
     try:
@@ -95,6 +98,7 @@ else:
             submissions = response.json()
             if submissions:
                 df = pd.DataFrame(submissions)
+                st.subheader("All Student Submissions")
                 st.table(df)
 
                 # Download CSV
@@ -111,4 +115,3 @@ else:
             st.error(f"Error fetching submissions: {response.text}")
     except requests.exceptions.RequestException as e:
         st.error(f"Could not connect to backend: {e}")
-
