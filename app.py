@@ -76,9 +76,7 @@ st.title("Translation & Editing Training Tool 🎓✨")
 
 role = st.radio("Select Role:", ["Student", "Instructor"])
 
-# -------------------------
 # Student Interface
-# -------------------------
 if role == "Student":
     reference = st.text_area("Reference Translation", "This is the gold standard translation.", height=100)
     mt_output = st.text_area("Machine Translation Output", "This is machine translation.", height=100)
@@ -131,9 +129,7 @@ if role == "Student":
         except requests.exceptions.RequestException as e:
             st.error(f"Could not connect to backend: {e}")
 
-# -------------------------
 # Instructor Interface
-# -------------------------
 elif role == "Instructor":
     st.header("Instructor Dashboard")
     try:
