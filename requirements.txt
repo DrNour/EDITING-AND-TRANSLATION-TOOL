@@ -1,8 +1,11 @@
+streamlit
 fastapi
 uvicorn
-streamlit
 pandas
-python-Levenshtein
+Levenshtein
 sacrebleu
 bert-score
 requests
+textblob
+sentence-transformers
+openpyxl
