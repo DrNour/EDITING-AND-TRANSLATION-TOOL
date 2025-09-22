@@ -1,23 +1,22 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List
-import time
 
-app = FastAPI()
+app = FastAPI(title="Translation Backend API")
+
+# Data storage
 submissions = []
 
 class Submission(BaseModel):
-    student_name: str
-    reference: str
-    mt_output: str
-    student_translation: str
+    student: str
+    translation: str
     score: float
-    timestamp: float
+    time_taken: float
 
-@app.post("/submit/")
-def submit_translation(sub: Submission):
+@app.post("/submissions/")
+def add_submission(sub: Submission):
     submissions.append(sub.dict())
-    return {"status": "success"}
+    return {"message": "Submission added successfully"}
 
 @app.get("/submissions/", response_model=List[Submission])
 def get_submissions():

@@ -1,7 +1,3 @@
 fastapi
 uvicorn
-pandas
-python-Levenshtein
-sacrebleu
-bert-score
-requests
+pydantic
