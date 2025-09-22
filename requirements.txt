@@ -1,9 +1,0 @@
-fastapi
-uvicorn
-pandas
-pydantic
-python-Levenshtein
-sacrebleu
-bert-score
-language-tool-python
-nltk
