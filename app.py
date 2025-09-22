@@ -9,8 +9,7 @@ import Levenshtein
 # -------------------------
 # Configuration
 # -------------------------
-API_URL = os.getenv("API_URL", "http://127.0.0.1:8000")
-
+API_URL = "https://editing-and-translation-tool.onrender.com"
 # -------------------------
 # Helper Functions
 # -------------------------
@@ -112,3 +111,4 @@ else:
             st.error(f"Error fetching submissions: {response.text}")
     except requests.exceptions.RequestException as e:
         st.error(f"Could not connect to backend: {e}")
+
