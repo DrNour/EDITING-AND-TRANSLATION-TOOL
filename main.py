@@ -1,61 +1,56 @@
-from fastapi import FastAPI
+# backend/main.py
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from typing import List
 import pandas as pd
 import os
-from utils import calculate_metrics, highlight_differences, classify_errors, generate_exercises, generate_collocations, generate_idioms, fun_activity
 
-app = FastAPI(title="Translation API")
+app = FastAPI(title="Translation Training Backend")
 
-class TranslationSubmission(BaseModel):
+# CSV file to store submissions
+CSV_FILE = "submissions.csv"
+
+# -------------------------
+# Data model
+# -------------------------
+class Submission(BaseModel):
     student_name: str
     reference: str
     mt_output: str
     student_translation: str
+    score: float
+    timestamp: float
 
-@app.post("/submit/")
-def submit_translation(submission: TranslationSubmission):
-    metrics = calculate_metrics(submission.student_translation, submission.reference)
-    edit_distance = Levenshtein.distance(submission.student_translation, submission.reference)
-    diff_text = highlight_differences(submission.reference, submission.student_translation)
-    errors = classify_errors(submission.student_translation, submission.reference)
-    exercises = generate_exercises(errors, submission.student_translation)
-    collos = generate_collocations(submission.student_translation)
-    idioms = generate_idioms()
-    activity = fun_activity()
-
-    result = {
-        "metrics": metrics,
-        "edit_distance": edit_distance,
-        "diff": diff_text,
-        "errors": errors,
-        "exercises": exercises,
-        "collocations": collos,
-        "idioms": idioms,
-        "fun_activity": activity
-    }
-
-    # Save submission
-    new_data = {
-        "Student": submission.student_name,
-        "Reference": submission.reference,
-        "MT Output": submission.mt_output,
-        "Translation": submission.student_translation,
-        "BLEU": metrics.get("BLEU"),
-        "Edit Distance": edit_distance,
-        "Errors": "; ".join(errors)
-    }
-    if os.path.exists("submissions.csv"):
-        df = pd.read_csv("submissions.csv")
-        df = pd.concat([df, pd.DataFrame([new_data])], ignore_index=True)
+# -------------------------
+# Helper function
+# -------------------------
+def save_submission(submission: Submission):
+    df = pd.DataFrame([submission.dict()])
+    if os.path.exists(CSV_FILE):
+        df.to_csv(CSV_FILE, mode="a", header=False, index=False)
     else:
-        df = pd.DataFrame([new_data])
-    df.to_csv("submissions.csv", index=False)
+        df.to_csv(CSV_FILE, index=False)
 
-    return result
+def load_submissions():
+    if os.path.exists(CSV_FILE):
+        return pd.read_csv(CSV_FILE).to_dict(orient="records")
+    else:
+        return []
 
-@app.get("/submissions/")
+# -------------------------
+# API endpoints
+# -------------------------
+@app.post("/submit/")
+def submit_translation(submission: Submission):
+    try:
+        save_submission(submission)
+        return {"status": "success", "message": "Submission saved."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/submissions/", response_model=List[Submission])
 def get_submissions():
-    if os.path.exists("submissions.csv"):
-        df = pd.read_csv("submissions.csv")
-        return df.to_dict(orient="records")
-    return []
+    try:
+        return load_submissions()
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
