@@ -1,4 +1,6 @@
-streamlit==1.26.0
+streamlit==1.30.0
 requests==2.31.0
-pandas==2.1.0
+pandas==2.0.3
+textdistance==4.5.0
 sacrebleu==2.3.2
+bert-score==0.3.13
