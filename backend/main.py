@@ -4,7 +4,7 @@ from typing import List
 
 app = FastAPI(title="Translation Backend API")
 
-# Data storage
+# In-memory storage
 submissions = []
 
 class Submission(BaseModel):
