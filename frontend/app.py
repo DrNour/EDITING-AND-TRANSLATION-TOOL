@@ -4,6 +4,12 @@ import os
 import difflib
 import pandas as pd
 
+API_URL = os.getenv("API_URL")
+if not API_URL:
+    st.error("API_URL environment variable is not set!")
+    st.stop()
+
+
 # Optional metrics
 try:
     import sacrebleu
