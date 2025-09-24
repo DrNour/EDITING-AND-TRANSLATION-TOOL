@@ -1,3 +1,6 @@
-fastapi==0.111.1
-uvicorn==0.23.2
-pydantic==2.5.1
+fastapi==0.110.0
+uvicorn==0.27.1
+pydantic==1.10.14
+python-multipart==0.0.9
+requests==2.31.0
+Levenshtein==0.23.0
