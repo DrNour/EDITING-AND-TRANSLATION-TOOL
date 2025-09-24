@@ -1,6 +1,7 @@
 streamlit==1.30.0
 requests==2.31.0
-pandas==2.0.3
+pandas==2.2.2
+numpy==1.26.4
 textdistance==4.5.0
 sacrebleu==2.3.2
 bert-score==0.3.13
